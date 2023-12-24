@@ -2,6 +2,7 @@
 #FROM ubuntu:focal
 #FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal
 FROM nvidia/cuda:12.3.1-devel-ubuntu20.04
+
 #RUN cat /etc/os-release
  RUN apt-get update -y && apt-get install -y nano curl
 # RUN apt-get update -y && apt-get install -y nano \
@@ -18,9 +19,9 @@ FROM nvidia/cuda:12.3.1-devel-ubuntu20.04
 WORKDIR /app
 
 # if manual download just uncomment this , and comment curl
-#COPY llava-v1.5-7b-q4-server.llamafile /app/llava-v1.5-7b-q4-server.llamafile
+COPY llava-v1.5-7b-q4-server.llamafile /app/llava-v1.5-7b-q4-server.llamafile
 
-RUN curl -LO https://huggingface.co/jartine/llava-v1.5-7B-GGUF/resolve/main/llava-v1.5-7b-q4-server.llamafile
+# RUN curl -LO https://huggingface.co/jartine/llava-v1.5-7B-GGUF/resolve/main/llava-v1.5-7b-q4-server.llamafile
 RUN chmod 755 /app/llava-v1.5-7b-q4-server.llamafile
 
 EXPOSE 8080
@@ -32,6 +33,7 @@ CMD [ "/app/llava-v1.5-7b-q4-server.llamafile", "--host","0.0.0.0","--port","808
 #sudo docker run --gpus all  -d --restart always -p 8080:8080 --name llamacpp_8880 docker.io/dunp/llamacpp
 #sudo docker run --gpus all  -d --restart always -p 8680:8080 --name llamacpp_8080_1 docker.io/dunp/llamacpp
 
+#sudo docker build --no-cache -f dockerfile -t docker.io/dunp/llamacpp .
 #docker run  -d --restart always -p 8080:8080 --name llamacpp_8880 docker.io/dunp/llamacpp
 
 ### install docker
