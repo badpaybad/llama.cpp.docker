@@ -1,0 +1,60 @@
+https://simonwillison.net/2023/Nov/29/llamafile/
+
+
+https://huggingface.co/jartine/llava-v1.5-7B-GGUF/blob/main/llava-v1.5-7b-q4-server.llamafile
+
+./llava-v1.5-7b-q4-server.llamafile --host 0.0.0.0 --port 8080 --nobrowser -np 4
+
+
+./mistral-7b-instruct-v0.1-Q4_K_M-server.llamafile --host 0.0.0.0 --port 8080 --nobrowser -np 4
+
+https://github.com/mozilla-Ocho/llamafile
+
+curl -s -L https://nvidia.github.io/nvidia-docker/focal/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+
+ sudo add-apt-repository ppa:graphics-drivers/ppa
+ 
+  sudo ubuntu-drivers autoinstall
+  
+  docker pull nvidia/cuda:11.0.3-base-ubuntu20.04
+  
+sudo docker run --gpus all nvidia/cuda:12.3.1-devel-ubuntu20.04 nvidia-smi
+
+
+docker pull nvidia/cuda:12.3.1-devel-ubuntu20.04
+
+$ sudo groupadd docker
+
+$ sudo usermod -aG docker $USER
+
+$ newgrp docker  
+
+
+# build cpp
+
+# Clone llama.cpp
+git clone https://github.com/ggerganov/llama.cpp.git
+cd llama.cpp
+
+# Build it
+make clean
+LLAMA_METAL=1 make
+
+# Download model
+export MODEL=llama-2-13b-chat.ggmlv3.q4_0.bin
+wget "https://huggingface.co/TheBloke/Llama-2-13B-chat-GGML/resolve/main/${MODEL}"
+
+# Run
+echo "Prompt: " \
+    && read PROMPT \
+    && ./main \
+        --threads 8 \
+        --n-gpu-layers 1 \
+        --model ${MODEL} \
+        --color \
+        --ctx-size 2048 \
+        --temp 0.7 \
+        --repeat_penalty 1.1 \
+        --n-predict -1 \
+        --prompt "[INST] ${PROMPT} [/INST]"

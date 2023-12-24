@@ -1,0 +1,6 @@
+https://simonwillison.net/2023/Nov/29/llamafile/
+
+
+https://huggingface.co/jartine/llava-v1.5-7B-GGUF/blob/main/llava-v1.5-7b-q4-server.llamafile
+
+./llava-v1.5-7b-q4-server.llamafile --host 0.0.0.0 --port 8080
